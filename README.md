@@ -7,6 +7,8 @@ This currently only supports windows, because thats what i was using when i thou
 
 # ToDo
 - [ ] Add ability to pick UxPlay location
+- [ ] Option to keep uxplay alive on close
 - [ ] Migrate to WinUI
+- [ ] Resizable Window
 - [ ] Add simple visualizer
 - [ ] Add duration tracking

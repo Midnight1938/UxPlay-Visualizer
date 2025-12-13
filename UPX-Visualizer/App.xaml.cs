@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace UPX_Upgrade
+namespace UxVisualizer
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -1,11 +1,11 @@
-﻿<Window x:Class="UPX_Upgrade.MainWindow"
+﻿<Window x:Class="UxVisualizer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UPX_Upgrade"
+        xmlns:local="clr-namespace:UxVisualizer"
         mc:Ignorable="d"
-        Title="UxPlay Visualizer" Height="520" Width="450" MinHeight="520" MinWidth="450"
+        Title="Ux-Visualizer" Height="520" Width="450" MinHeight="520" MinWidth="450"
         Background="#595959">
     <Window.Resources>
         <SolidColorBrush x:Key="VisualizerBarBrush" Color="#CCFFFFFF" />

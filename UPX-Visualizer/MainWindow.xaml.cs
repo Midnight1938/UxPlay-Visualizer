@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NAudio.Wave;
 
-namespace UPX_Upgrade
+namespace UxVisualizer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -671,9 +671,12 @@ namespace UPX_Upgrade
 
             // Always reserve some vertical space specifically for the visualizer row so
             // the album art cannot consume it when the window gets taller.
-            double visualizerReserved = 70; // minimum desired space for bars
+            // Slightly over-reserve so that horizontal growth starts producing side margins
+            // before the art would run into the bottom edge.
+            double visualizerReserved = 100; // minimum desired space for bars
+            double extraSafety = 20;         // additional cushion for miscellaneous spacing
 
-            double reservedHeight = textHeight + statusHeight + verticalMargins + visualizerReserved;
+            double reservedHeight = textHeight + statusHeight + verticalMargins + visualizerReserved + extraSafety;
 
             double availableForArtByHeight = totalHeight - reservedHeight;
             if (availableForArtByHeight < 150)

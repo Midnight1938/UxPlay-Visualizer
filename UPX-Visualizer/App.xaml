@@ -1,7 +1,7 @@
-﻿<Application x:Class="UPX_Upgrade.App"
+﻿<Application x:Class="UxVisualizer.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:UPX_Upgrade"
+             xmlns:local="clr-namespace:UxVisualizer"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

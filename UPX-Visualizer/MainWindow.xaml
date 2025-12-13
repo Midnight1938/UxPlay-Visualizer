@@ -1,0 +1,89 @@
+﻿<Window x:Class="UPX_Upgrade.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UPX_Upgrade"
+        mc:Ignorable="d"
+        Title="UxPlay Visualizer" Height="520" Width="450" MinHeight="520" MinWidth="450"
+        Background="#595959">
+    <Window.Resources>
+        <SolidColorBrush x:Key="VisualizerBarBrush" Color="#CCFFFFFF" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Blurred background derived from the album art; always fills the entire window -->
+        <Image x:Name="BackgroundArt"
+               Grid.RowSpan="2"
+               Stretch="UniformToFill"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               Opacity="0.40">
+            <Image.Effect>
+                <BlurEffect Radius="50" />
+            </Image.Effect>
+        </Image>
+
+        <!-- Foreground content: album art + fixed-size text + bar visualizer -->
+        <Grid Grid.Row="0" Margin="40,20,40,10">
+            <Grid.RowDefinitions>
+                <!-- Album art row gets the flexible space; other rows stay at their desired size -->
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <!-- Visualizer row uses Auto so it always keeps its own height and cannot be collapsed away -->
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Album art in a square area; base size 300x300; size controlled from code to avoid hiding content -->
+            <Viewbox x:Name="AlbumViewbox"
+                     Grid.Row="0"
+                     Margin="20,0,20,0"
+                     HorizontalAlignment="Center"
+                     Stretch="Uniform">
+                <Border x:Name="AlbumBorder"
+                        Width="300"
+                        Height="300"
+                        CornerRadius="8"
+                        Background="#33000000">
+                    <Image x:Name="Album_Art"
+                           Stretch="Uniform"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center" />
+                </Border>
+            </Viewbox>
+
+            <!-- Text below album art: font sizes remain constant, foreground kept light for contrast on any background -->
+            <TextBlock x:Name="Song_Name" Grid.Row="1" Margin="0,20,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="Song" Width="260" Opacity="0.9" Foreground="#F0F0F0"/>
+            <TextBlock x:Name="Artist_Name" Grid.Row="2" Margin="0,4,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="Artist" Width="260" FontSize="10" FontWeight="Bold" Foreground="#F0F0F0"/>
+            <TextBlock x:Name="Album_Name" Grid.Row="3" Margin="0,4,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="Album" Width="260" RenderTransformOrigin="0.5,0.5" FontSize="10" Opacity="0.9" Foreground="#F0F0F0"/>
+
+            <!-- Bar-style music visualizer; width bound to the displayed album area without uniform height shrinking -->
+            <Grid Grid.Row="4" Margin="0,0,0,0" VerticalAlignment="Bottom">
+                <Grid x:Name="MusicVisualizer"
+                      MaxHeight="80"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Bottom">
+                    <Grid x:Name="VisualizerGrid"
+                          Height="26"
+                          Width="{Binding ActualWidth, ElementName=AlbumViewbox}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Bottom" />
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <StatusBar Grid.Row="1" Background="#66000000" Foreground="White">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusText"
+                           Text="255.255.255.255 | Device Name | Status"
+                           TextTrimming="CharacterEllipsis" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

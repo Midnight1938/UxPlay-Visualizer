@@ -375,6 +375,42 @@ namespace UxVisualizer
             BuildVisualizerBars();
         }
 
+        private void UpdateBarThicknessForWidth(double artWidth)
+        {
+            if (artWidth <= 0)
+            {
+                return;
+            }
+
+            if (visualizerBars.Count == 0)
+            {
+                BuildVisualizerBars();
+                if (visualizerBars.Count == 0)
+                {
+                    return;
+                }
+            }
+
+            // Use a simple scale relative to a reference width so that
+            // bars slowly thicken as the album area gets wider.
+            double scale = artWidth / 300.0; // 300px => base scale of 1
+            double targetWidth = 2.0 * scale; // base width 2 at ~300px
+
+            if (targetWidth < 2.0)
+            {
+                targetWidth = 2.0;
+            }
+            if (targetWidth > 6.0)
+            {
+                targetWidth = 6.0;
+            }
+
+            foreach (var bar in visualizerBars)
+            {
+                bar.Width = targetWidth;
+            }
+        }
+
         private void ParseUxPlayOutput(string data)
         {
             if (string.IsNullOrEmpty(data))
@@ -692,7 +728,12 @@ namespace UxVisualizer
                 availableForArtByWidth = minArt;
             }
 
-            double cap = Math.Min(availableForArtByHeight, availableForArtByWidth);
+            // Slightly reduce the effective height budget to leave a bit of extra
+            // breathing room at the bottom, avoiding any residual clipping when
+            // the window is wide and not very tall.
+            double effectiveHeightForArt = availableForArtByHeight * 0.9;
+
+            double cap = Math.Min(effectiveHeightForArt, availableForArtByWidth);
             if (cap < minArt)
             {
                 cap = minArt;
@@ -706,8 +747,15 @@ namespace UxVisualizer
             AlbumViewbox.MaxWidth = cap;
             AlbumViewbox.MaxHeight = cap;
 
-            // Adapt visualizer bar count to the current album width (use the realized album width)
-            EnsureBarCountForWidth(AlbumViewbox.ActualWidth > 0 ? AlbumViewbox.ActualWidth : cap);
+            // Use the realized album width if we have it; otherwise fall back to the cap.
+            double realizedArtWidth = AlbumViewbox.ActualWidth > 0 ? AlbumViewbox.ActualWidth : cap;
+
+            // Adapt visualizer bar count to the current album width
+            EnsureBarCountForWidth(realizedArtWidth);
+
+            // And update bar thickness so the bars get a bit thicker as the
+            // album art width grows.
+            UpdateBarThicknessForWidth(realizedArtWidth);
 
             // Scale visualizer thickness with the album area size so it looks beefier as the art grows,
             // but never smaller than the reserved space.
